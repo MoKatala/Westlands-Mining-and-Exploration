@@ -1,0 +1,1047 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#08100d">
+  <meta name="description" content="Westlands Mining & Exploration connects credible African mining opportunities with the capital, technical partners, and field discipline needed to move them forward.">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <title>Westlands Mining & Exploration</title>
+  <style>
+    :root {
+      --ink: #07100d;
+      --pine: #0d1712;
+      --pine-2: #14221a;
+      --paper: #efe8d7;
+      --paper-2: #f8f2e5;
+      --gold: #d6ad34;
+      --gold-2: #f2d878;
+      --copper: #b86f33;
+      --sage: #6f8b75;
+      --mist: rgba(255, 250, 235, .72);
+      --line: rgba(239, 232, 215, .16);
+      --dark-line: rgba(7, 16, 13, .13);
+      --shadow: 0 28px 80px rgba(4, 8, 6, .35);
+      --radius: 8px;
+      --max: 1180px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--ink);
+      color: var(--paper);
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      letter-spacing: 0;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 10;
+      background:
+        linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.02) 1px, transparent 1px);
+      background-size: 42px 42px;
+      mix-blend-mode: soft-light;
+      opacity: .34;
+    }
+
+    img { max-width: 100%; display: block; }
+    a { color: inherit; text-decoration: none; }
+    button, input, textarea { font: inherit; }
+
+    .progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 3px;
+      width: 0;
+      z-index: 60;
+      background: linear-gradient(90deg, var(--gold), var(--gold-2));
+    }
+
+    .shell {
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at 10% -10%, rgba(214,173,52,.16), transparent 32rem),
+        radial-gradient(circle at 90% 15%, rgba(111,139,117,.12), transparent 34rem),
+        var(--ink);
+    }
+
+    .nav {
+      position: fixed;
+      z-index: 50;
+      top: 28px;
+      right: max(20px, calc((100vw - var(--max)) / 2));
+      width: auto;
+      display: grid;
+      grid-template-columns: auto;
+      gap: 10px;
+      padding: 7px;
+      border: 1px solid rgba(255,255,255,.14);
+      border-radius: 22px;
+      background: rgba(7, 15, 11, .82);
+      box-shadow: 0 18px 58px rgba(0,0,0,.42);
+      backdrop-filter: blur(22px);
+      transition: transform .28s ease, opacity .28s ease, border-color .2s ease, background .2s ease;
+      will-change: transform, opacity;
+    }
+
+    .nav.is-hidden {
+      opacity: 0;
+      transform: translateY(-16px);
+      pointer-events: none;
+    }
+
+    .nav::before {
+      content: "";
+      position: absolute;
+      inset: 1px;
+      z-index: -1;
+      border-radius: inherit;
+      background: linear-gradient(180deg, rgba(255,255,255,.09), rgba(255,255,255,0));
+      pointer-events: none;
+    }
+
+    .nav-brand {
+      display: none;
+      align-items: center;
+      min-width: 0;
+      gap: 10px;
+      padding-left: 8px;
+    }
+
+    .nav-brand img { width: 38px; height: 38px; object-fit: contain; }
+    .nav-brand strong {
+      font-size: 12px;
+      line-height: 1.05;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      min-width: 0;
+      overflow: visible;
+      scrollbar-width: none;
+    }
+
+    .nav-links::-webkit-scrollbar { display: none; }
+
+    .nav a {
+      white-space: nowrap;
+      color: rgba(255,255,255,.72);
+      font-size: 12px;
+      padding: 11px 13px;
+      border-radius: 18px;
+      transition: .2s ease;
+    }
+
+    .nav a:hover, .nav a.is-active {
+      color: #fff;
+      background: rgba(255,255,255,.1);
+    }
+
+    .section {
+      position: relative;
+      padding: 96px 20px;
+    }
+
+    .section:not(.hero)::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: min(var(--max), calc(100% - 40px));
+      height: 1px;
+      transform: translateX(-50%);
+      background: linear-gradient(90deg, transparent, rgba(214,173,52,.22), transparent);
+      pointer-events: none;
+    }
+
+    .wrap {
+      width: min(var(--max), 100%);
+      margin: 0 auto;
+    }
+
+    .hero {
+      min-height: 100svh;
+      display: grid;
+      align-items: center;
+      padding: 26px 20px 116px;
+      isolation: isolate;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -2;
+      background:
+        linear-gradient(90deg, rgba(7,16,13,.97) 0%, rgba(7,16,13,.76) 42%, rgba(7,16,13,.22) 100%),
+        linear-gradient(0deg, rgba(7,16,13,.98) 0%, rgba(7,16,13,.12) 54%, rgba(7,16,13,.74) 100%),
+        url("hero-clean.webp") center / cover no-repeat;
+      transform: scale(1.03);
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: auto 0 0;
+      height: 36vh;
+      z-index: -1;
+      background: linear-gradient(0deg, var(--ink), transparent);
+    }
+
+    .topline {
+      position: absolute;
+      top: 22px;
+      left: 50%;
+      width: min(var(--max), calc(100% - 40px));
+      transform: translateX(-50%);
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      gap: 18px;
+    }
+
+    .topline .mark {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: .12em;
+      padding: 8px 12px 8px 4px;
+      border-radius: 999px;
+      background: rgba(7,16,13,.18);
+      backdrop-filter: blur(10px);
+    }
+
+    .topline img { width: 58px; height: 58px; object-fit: contain; }
+
+    .hero-copy {
+      width: min(760px, 100%);
+      padding-top: clamp(104px, 16vh, 190px);
+    }
+
+    h1, h2, h3, p { margin-top: 0; }
+
+    h1 {
+      margin-bottom: 22px;
+      color: #fff7df;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(48px, 8vw, 104px);
+      line-height: .9;
+      font-weight: 700;
+      letter-spacing: 0;
+    }
+
+    .lead {
+      max-width: 650px;
+      color: rgba(255,250,235,.86);
+      font-size: clamp(18px, 2.2vw, 24px);
+      line-height: 1.45;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 30px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      min-height: 50px;
+      padding: 14px 18px;
+      border: 1px solid rgba(255,255,255,.16);
+      border-radius: var(--radius);
+      color: #fff;
+      background: rgba(255,255,255,.075);
+      font-weight: 850;
+      box-shadow: 0 14px 34px rgba(0,0,0,.24);
+      transition: transform .2s ease, border-color .2s ease, background .2s ease;
+    }
+
+    .btn:hover { transform: translateY(-2px); border-color: rgba(242,216,120,.55); }
+    .btn.primary {
+      color: #171005;
+      border-color: transparent;
+      background: linear-gradient(135deg, var(--gold-2), var(--gold));
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      margin-top: 48px;
+      overflow: hidden;
+      border: 1px solid rgba(239,232,215,.2);
+      border-radius: var(--radius);
+      background: rgba(239,232,215,.18);
+      box-shadow: 0 24px 72px rgba(0,0,0,.3);
+    }
+
+    .scroll-cue {
+      display: none;
+    }
+
+    .stat {
+      position: relative;
+      min-height: 124px;
+      padding: 22px;
+      background: rgba(8,16,13,.82);
+    }
+
+    .stat::before {
+      content: "";
+      position: absolute;
+      left: 22px;
+      right: 22px;
+      top: 14px;
+      height: 2px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, rgba(214,173,52,.75), rgba(242,216,120,0));
+      opacity: .64;
+    }
+
+    .stat b {
+      display: block;
+      color: var(--gold-2);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 34px;
+      line-height: 1;
+    }
+
+    .stat span {
+      display: block;
+      margin-top: 9px;
+      color: rgba(255,250,235,.72);
+      font-size: 13px;
+      line-height: 1.35;
+    }
+
+    .split {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, .82fr);
+      gap: 56px;
+      align-items: center;
+    }
+
+    .eyebrow {
+      margin-bottom: 14px;
+      color: var(--gold);
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+
+    h2 {
+      color: var(--paper-2);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(34px, 5vw, 68px);
+      line-height: .98;
+      letter-spacing: 0;
+    }
+
+    .section.light h2 { color: var(--ink); }
+
+    .copy {
+      color: rgba(255,250,235,.72);
+      font-size: 17px;
+      line-height: 1.7;
+    }
+
+    .light {
+      color: var(--ink);
+      background: var(--paper);
+    }
+
+    .light .copy { color: rgba(7,16,13,.68); }
+    .light .eyebrow { color: #687743; }
+
+    .photo {
+      position: relative;
+      overflow: hidden;
+      width: 100%;
+      min-width: 0;
+      aspect-ratio: 4 / 5;
+      border-radius: var(--radius);
+      border: 1px solid rgba(255,255,255,.15);
+      box-shadow: var(--shadow);
+      background: var(--pine);
+    }
+
+    .photo::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.04), inset 0 -120px 120px rgba(0,0,0,.2);
+      pointer-events: none;
+    }
+
+    .photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform .7s ease;
+    }
+
+    .photo:hover img { transform: scale(1.035); }
+
+    .caption {
+      position: absolute;
+      z-index: 2;
+      left: 16px;
+      right: 16px;
+      bottom: 16px;
+      padding: 14px;
+      border-radius: var(--radius);
+      background: rgba(7,16,13,.72);
+      backdrop-filter: blur(16px);
+      color: rgba(255,250,235,.84);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin-top: 36px;
+    }
+
+    .card {
+      position: relative;
+      padding: 24px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.045);
+    }
+
+    .card::before,
+    .rule::before,
+    .quarter::before,
+    .work-surface::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background: linear-gradient(180deg, rgba(255,255,255,.055), rgba(255,255,255,0) 42%);
+      pointer-events: none;
+    }
+
+    .light .card {
+      border-color: var(--dark-line);
+      background: rgba(255,255,255,.44);
+    }
+
+    .num {
+      display: grid;
+      place-items: center;
+      width: 34px;
+      height: 34px;
+      margin-bottom: 22px;
+      border-radius: 50%;
+      background: rgba(214,173,52,.16);
+      color: var(--gold-2);
+      font-weight: 900;
+    }
+
+    .light .num { color: #6a4a0b; background: rgba(214,173,52,.24); }
+
+    .card h3 {
+      margin-bottom: 10px;
+      color: var(--paper-2);
+      font-size: 15px;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+    }
+
+    .light .card h3 { color: var(--ink); }
+
+    .card p {
+      margin-bottom: 0;
+      color: rgba(255,250,235,.66);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .light .card p { color: rgba(7,16,13,.64); }
+
+    .process {
+      display: grid;
+      gap: 10px;
+      margin-top: 28px;
+    }
+
+    .process-row {
+      display: grid;
+      grid-template-columns: 76px 1fr;
+      gap: 18px;
+      align-items: start;
+      padding: 18px;
+      border: 1px solid var(--dark-line);
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.44);
+    }
+
+    .process-row b {
+      color: #83610d;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+
+    .process-row h3 {
+      margin-bottom: 4px;
+      color: var(--ink);
+      font-size: 17px;
+    }
+
+    .process-row p {
+      margin: 0;
+      color: rgba(7,16,13,.64);
+      line-height: 1.55;
+    }
+
+    .pipeline {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      margin-top: 38px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      overflow: hidden;
+      background: var(--line);
+    }
+
+    .stage {
+      padding: 26px;
+      min-height: 230px;
+      background: var(--pine);
+      position: relative;
+    }
+
+    .stage::after {
+      content: "";
+      position: absolute;
+      top: 42px;
+      right: -11px;
+      width: 22px;
+      height: 22px;
+      border-top: 1px solid var(--line);
+      border-right: 1px solid var(--line);
+      background: var(--pine);
+      transform: rotate(45deg);
+      z-index: 2;
+    }
+
+    .stage:last-child::after { display: none; }
+    .stage small {
+      color: var(--gold);
+      font-weight: 900;
+      letter-spacing: .1em;
+    }
+
+    .stage h3 {
+      margin: 18px 0 10px;
+      color: #fff7df;
+      font-size: 17px;
+    }
+
+    .stage p {
+      margin-bottom: 0;
+      color: rgba(255,250,235,.66);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .image-band {
+      min-height: 520px;
+      display: grid;
+      align-items: end;
+      padding: 80px 20px;
+      background:
+        linear-gradient(90deg, rgba(7,16,13,.94), rgba(7,16,13,.42), rgba(7,16,13,.88)),
+        url("mine-corridor.webp") center / cover fixed;
+    }
+
+    .band-panel {
+      width: min(560px, 100%);
+      padding: 30px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(7,16,13,.74);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(16px);
+    }
+
+    .timeline {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-top: 36px;
+    }
+
+    .quarter {
+      position: relative;
+      min-height: 210px;
+      padding: 22px;
+      border-radius: var(--radius);
+      border: 1px solid var(--dark-line);
+      background: rgba(255,255,255,.48);
+    }
+
+    .quarter b {
+      color: #82620d;
+      font-size: 13px;
+      letter-spacing: .08em;
+    }
+
+    .quarter h3 {
+      margin: 16px 0 10px;
+      color: var(--ink);
+      font-size: 18px;
+    }
+
+    .quarter p {
+      margin: 0;
+      color: rgba(7,16,13,.64);
+      line-height: 1.55;
+      font-size: 14px;
+    }
+
+    .trust-grid {
+      display: grid;
+      grid-template-columns: .8fr 1fr;
+      gap: 18px;
+      margin-top: 34px;
+    }
+
+    .rule {
+      position: relative;
+      padding: 22px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.045);
+    }
+
+    .rule h3 {
+      color: var(--paper-2);
+      font-size: 18px;
+    }
+
+    .rule p {
+      margin: 0;
+      color: rgba(255,250,235,.65);
+      line-height: 1.6;
+    }
+
+    .cta {
+      padding-bottom: 130px;
+      background:
+        linear-gradient(0deg, rgba(7,16,13,.94), rgba(7,16,13,.8)),
+        url("expedition.webp") center / cover no-repeat;
+    }
+
+    .cta-box {
+      display: grid;
+      grid-template-columns: minmax(0, 760px);
+      gap: 28px;
+      align-items: stretch;
+      padding: 34px;
+      border: 1px solid rgba(242,216,120,.28);
+      border-radius: var(--radius);
+      background: rgba(7,16,13,.78);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(18px);
+    }
+
+    .reveal {
+      opacity: 1;
+      transform: translateY(0);
+      transition: opacity .7s ease, transform .7s ease;
+    }
+
+    .reveal.in { opacity: 1; transform: translateY(0); }
+
+    footer {
+      padding: 28px 20px 110px;
+      color: rgba(255,250,235,.52);
+      background: #050907;
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    footer .wrap {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    @media (max-width: 1100px) {
+      .split, .cta-box, .trust-grid { grid-template-columns: 1fr; }
+      .photo { aspect-ratio: 16 / 11; }
+    }
+
+    @media (max-width: 900px) {
+      .nav {
+        grid-template-columns: 1fr;
+        top: auto;
+        right: auto;
+        left: 12px;
+        width: min(366px, calc(100vw - 24px));
+        transform: none;
+        bottom: 12px;
+        border-radius: 22px;
+        padding: 9px;
+      }
+
+      .nav.is-hidden { opacity: 1; transform: none; pointer-events: auto; }
+
+      .nav-brand { display: none; }
+      .nav-links { justify-content: space-between; width: 100%; }
+      .nav a { padding: 12px 12px; }
+
+      .hero { padding-bottom: 104px; }
+      .stats, .cards, .pipeline, .timeline { grid-template-columns: 1fr 1fr; }
+      .image-band { background-attachment: scroll; }
+      footer .wrap { display: block; }
+    }
+
+    @media (max-width: 560px) {
+      .section { padding: 76px 16px; }
+      .hero { min-height: 100svh; padding: 22px 16px 118px; }
+      .hero .wrap { width: 100%; min-width: 0; }
+      .topline { width: calc(100% - 32px); }
+      .topline img { width: 50px; height: 50px; }
+      .topline .mark span { display: none; }
+      .topline .mark { padding: 5px; background: rgba(7,16,13,.08); }
+      .hero-copy { width: 100%; max-width: 350px; padding-top: 86px; }
+      .eyebrow { max-width: 330px; font-size: 10px; line-height: 1.35; }
+      h1 { max-width: 350px; font-size: clamp(40px, 12.2vw, 52px); line-height: .94; overflow-wrap: anywhere; }
+      .lead { max-width: 350px; font-size: 16px; }
+      .hero-actions { width: 100%; max-width: 350px; gap: 10px; margin-top: 26px; }
+      .hero-actions .btn { width: 100%; min-height: 48px; }
+      .stats {
+        width: 100%;
+        max-width: 358px;
+        display: flex;
+        gap: 10px;
+        margin-top: 28px;
+        padding: 0 0 8px;
+        overflow-x: auto;
+        border: 0;
+        border-radius: 0;
+        background: transparent;
+        box-shadow: none;
+        scroll-snap-type: x mandatory;
+        scrollbar-width: none;
+        -webkit-mask-image: linear-gradient(90deg, #000 0, #000 calc(100% - 42px), transparent 100%);
+        mask-image: linear-gradient(90deg, #000 0, #000 calc(100% - 42px), transparent 100%);
+      }
+      .stats::-webkit-scrollbar { display: none; }
+      .scroll-cue {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        width: 100%;
+        max-width: 358px;
+        height: 18px;
+        margin-top: -2px;
+        pointer-events: none;
+      }
+      .scroll-cue span {
+        position: relative;
+        width: 54px;
+        height: 1px;
+        border-radius: 999px;
+        background: linear-gradient(90deg, rgba(214,173,52,0), rgba(242,216,120,.82));
+      }
+      .scroll-cue span::after {
+        content: "";
+        position: absolute;
+        right: 0;
+        top: 50%;
+        width: 6px;
+        height: 6px;
+        border-top: 1px solid rgba(242,216,120,.9);
+        border-right: 1px solid rgba(242,216,120,.9);
+        transform: translateY(-50%) rotate(45deg);
+      }
+      .cards, .pipeline, .timeline { grid-template-columns: 1fr; }
+      .stat {
+        flex: 0 0 190px;
+        min-height: 118px;
+        padding: 18px 16px;
+        border: 1px solid rgba(239,232,215,.16);
+        border-radius: var(--radius);
+        background: rgba(8,16,13,.82);
+        box-shadow: 0 16px 42px rgba(0,0,0,.22);
+        scroll-snap-align: start;
+      }
+      .stat::before { left: 16px; right: 16px; top: 12px; }
+      .stat b { font-size: 28px; }
+      .stat span { font-size: 11.5px; overflow-wrap: normal; }
+      .stage { min-height: auto; }
+      .stage::after { display: none; }
+      .process-row { grid-template-columns: 1fr; gap: 8px; }
+      .cta-box { padding: 22px; }
+      .nav-links {
+        display: grid;
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        gap: 2px;
+        overflow: visible;
+        width: 100%;
+      }
+      .nav a { min-width: 0; font-size: 11px; padding: 12px 4px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+  <div class="progress" id="progress"></div>
+  <main class="shell">
+    <nav class="nav" aria-label="Primary navigation">
+      <a class="nav-brand" href="#top" aria-label="Westlands home">
+        <img src="westlands-logo.png" alt="Westlands logo">
+        <strong>Westlands<br>Mining</strong>
+      </a>
+      <div class="nav-links">
+        <a href="#gap">Company</a>
+        <a href="#method">Work</a>
+        <a href="#expedition">Field</a>
+        <a href="#standards">Standards</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </nav>
+
+    <section class="hero section" id="top">
+      <div class="topline">
+        <div class="mark">
+          <img src="westlands-logo.png" alt="Westlands Mining & Exploration">
+          <span>Westlands Mining & Exploration</span>
+        </div>
+      </div>
+      <div class="wrap">
+        <div class="hero-copy reveal">
+          <h1> Invest in Mining with confidence </h1>
+          <p class="lead">We source and prepare high potential mining projects, for investors seeking exceptional opportunities.</p>
+          <div class="hero-actions">
+            <a class="btn primary" href="#method">Explore our work</a>
+            <a class="btn" href="#contact">Book a Meeting </a>
+          </div>
+        </div>
+        <div class="stats reveal" aria-label="Westlands operating focus">
+          <div class="stat"><b>100+</b><span>Mining projects available for investment</span></div>
+          <div class="stat"><b>200+</b><span> Primary Mining Licenses ready for exploration </span></div>
+          <div class="stat"><b>300+ </b><span> Smallscale miners impacted </span></div>
+          <div class="stat"><b>5+</b><span> Minerals covered </span></div>
+        </div>
+        <div class="scroll-cue" aria-hidden="true"><span></span></div>
+      </div>
+    </section>
+
+    <section class="section" id="gap">
+      <div class="wrap split">
+        <div class="reveal">
+          <div class="eyebrow">What we do</div>
+          <h2>We bridge local mining opportunities to capital.</h2>
+          <p class="copy">Many strong mining opportunities begin locally. Capital needs a clear path to understand them. Westlands sits between the two: reviewing the ground, organising the facts, and preparing the next practical step.</p>
+          <div class="cards">
+            <article class="card"><div class="num">1</div><h3>Opportunity</h3><p>We review local licences, access, geology, and owner readiness before a project is introduced.</p></article>
+            <article class="card"><div class="num">2</div><h3>Evidence</h3><p>We organise the records, site information, technical notes, and open questions investors need to see.</p></article>
+            <article class="card"><div class="num">3</div><h3>Capital</h3><p>We help match serious projects with investors, technical partners, and operating capacity.</p></article>
+            <article class="card"><div class="num">4</div><h3>Execution</h3><p>We prepare the next field programme so decisions can be made with discipline.</p></article>
+          </div>
+        </div>
+        <div class="photo reveal">
+          <img src="opportunity.webp" alt="Mining team working on rugged mineral ground">
+          <div class="caption">Westlands stays close to the ground, the documents, and the people behind each opportunity.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section light" id="method">
+      <div class="wrap">
+        <div class="split">
+          <div class="reveal">
+            <div class="eyebrow">What makes us special</div>
+            <h2>We de-risk mining opportunities, making it easier to invest</h2>
+          </div>
+          <p class="copy reveal">We take local mining opportunities and prepare them for serious review: clear rights, clear evidence, clear risks, and a clear path for capital.</p>
+        </div>
+        <div class="pipeline reveal" aria-label="Value creation pipeline">
+          <article class="stage"><small>01</small><h3>Local opportunity</h3><p>A licence or project has potential, but the facts still need to be tested.</p></article>
+          <article class="stage"><small>02</small><h3>Prepared evidence</h3><p>Ownership, geology, field notes, risks, and gaps are put into a clear form.</p></article>
+          <article class="stage"><small>03</small><h3>Capital fit</h3><p>The project is matched with the right investor profile, budget, and technical needs.</p></article>
+          <article class="stage"><small>04</small><h3>Next work</h3><p>The field plan, reporting rhythm, and decision points are agreed before work expands.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section light" id="expedition">
+      <div class="wrap split">
+        <div class="photo reveal">
+          <img src="expedition.webp" alt="Mining operators reviewing site plans on a vehicle">
+          <div class="caption">A field visit should replace assumptions with clear knowledge about the project and its capital needs.</div>
+        </div>
+        <div class="reveal">
+          <div class="eyebrow"> We operate from the field</div>
+          <h2>Capital needs more than a story.</h2>
+          <div class="process">
+            <div class="process-row"><b>People</b><div><h3>Who owns the opportunity?</h3><p>We meet owners and advisers, review the structure, and clarify who is responsible.</p></div></div>
+            <div class="process-row"><b>Ground</b><div><h3>What does the site show?</h3><p>We inspect access, workings, samples, geology, and operating conditions with specialists.</p></div></div>
+            <div class="process-row"><b>Cost</b><div><h3>What capital is needed?</h3><p>We review suppliers, logistics, permits, community obligations, budgets, and timing.</p></div></div>
+            <div class="process-row"><b>Next</b><div><h3>What should happen next?</h3><p>We define the work plan, reporting rhythm, roles, decision gates, and stop points.</p></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="image-band">
+      <div class="wrap">
+        <div class="band-panel reveal">
+          <div class="eyebrow">Field focus</div>
+          <h2>Local insight. Investor discipline.</h2>
+          <p class="copy">We focus on a small number of mining opportunities at a time, so each one can be understood properly before capital is introduced.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="standards">
+      <div class="wrap split">
+        <div class="reveal">
+          <div class="eyebrow">Standards</div>
+          <h2>We earn trust before we ask for capital.</h2>
+          <p class="copy">Mining is risky. We reduce uncertainty by showing what is known, what is not known, and what must be done before a project deserves more capital.</p>
+        </div>
+        <div class="photo reveal">
+          <img src="field-prep.webp" alt="Drilling and mineral exploration preparation equipment">
+          <div class="caption">Good preparation helps investors see the opportunity, the risks, and the next sensible step.</div>
+        </div>
+      </div>
+      <div class="wrap">
+        <div class="cards reveal">
+          <article class="card"><div class="num">01</div><h3>Rights</h3><p>Ownership, licence position, access, and open issues are reviewed before introduction.</p></article>
+          <article class="card"><div class="num">02</div><h3>Technical review</h3><p>Geology and specialist input are presented with clear assumptions, limits, and evidence.</p></article>
+          <article class="card"><div class="num">03</div><h3>Local execution</h3><p>Suppliers, logistics, community realities, and permits are treated as part of the investment case.</p></article>
+          <article class="card"><div class="num">04</div><h3>Reporting</h3><p>Progress, setbacks, spend, and decision points are documented so partners can act.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section light">
+      <div class="wrap">
+        <div class="split">
+          <div class="reveal">
+            <div class="eyebrow">Working rhythm</div>
+            <h2>Prepare first. Raise capital second.</h2>
+          </div>
+          <p class="copy reveal">We move carefully: identify local opportunities, prepare the evidence, bring in the right partners, and report what the work shows.</p>
+        </div>
+        <div class="timeline reveal">
+          <article class="quarter"><b>01</b><h3>Find</h3><p>Identify credible local owners, licences, and mining opportunities worth reviewing.</p></article>
+          <article class="quarter"><b>02</b><h3>Prepare</h3><p>Organise field evidence, records, budgets, maps, specialist input, and open questions.</p></article>
+          <article class="quarter"><b>03</b><h3>Connect</h3><p>Bring the right investors, technical partners, and operators into the process.</p></article>
+          <article class="quarter"><b>04</b><h3>Report</h3><p>Document findings, next work, risks, responsibilities, and decision points clearly.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrap split">
+        <div class="photo reveal">
+          <img src="verification.webp" alt="Technical review of mineral samples">
+          <div class="caption">Credibility comes from showing the full picture before capital is committed.</div>
+        </div>
+        <div class="reveal">
+          <div class="eyebrow">Trust rules</div>
+          <h2>Clear rules make better partnerships.</h2>
+          <div class="trust-grid">
+            <article class="rule"><h3>Disclose incentives</h3><p>Owners and partners should understand how Westlands is paid and where interests sit.</p></article>
+            <article class="rule"><h3>Separate verification</h3><p>Lawyers, geologists, and specialists should stand behind their own work.</p></article>
+            <article class="rule"><h3>Never promise approvals</h3><p>Permits and licences require proper regulatory process. Preparation is not a guarantee.</p></article>
+            <article class="rule"><h3>Reject unclear projects</h3><p>We would rather pass on a project than introduce capital to weak evidence.</p></article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section cta" id="contact">
+      <div class="wrap cta-box reveal">
+        <div>
+          <div class="eyebrow">Work with Westlands</div>
+          <h2>Looking to invest? Get in touch</h2>
+          <p class="copy">We work with project owners, investors, technical experts, suppliers, and partners who want African mining opportunities prepared clearly before capital is deployed.</p>
+          <div class="hero-actions">
+            <a class="btn primary" href="mailto:invest@westlandsmining.com?subject=Westlands%20Mining%20Conversation">Book a call</a>
+            <a class="btn" href="#top">Back to top</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <span>Westlands Mining & Exploration.</span>
+      <span>Mining is risky. Capital, permitting, trading, and related-party activity require appropriate licences, controls, and independent advice.</span>
+    </div>
+  </footer>
+
+  <script>
+    const progress = document.getElementById("progress");
+    const reveals = document.querySelectorAll(".reveal");
+    const nav = document.querySelector(".nav");
+    const navLinks = [...document.querySelectorAll(".nav-links a")];
+    const sections = navLinks.map(link => document.querySelector(link.getAttribute("href"))).filter(Boolean);
+    let lastScrollY = scrollY;
+
+    const revealObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add("in");
+      });
+    }, { threshold: 0.12 });
+
+    reveals.forEach(el => revealObserver.observe(el));
+
+    function updateChrome() {
+      const max = document.documentElement.scrollHeight - innerHeight;
+      progress.style.width = `${Math.max(0, scrollY / max) * 100}%`;
+      const isDesktopNav = innerWidth > 900;
+      if (isDesktopNav) {
+        const scrollingDown = scrollY > lastScrollY && scrollY > 120;
+        nav.classList.toggle("is-hidden", scrollingDown);
+      } else {
+        nav.classList.remove("is-hidden");
+      }
+      lastScrollY = Math.max(0, scrollY);
+      let active = sections[0]?.id;
+      sections.forEach(section => {
+        if (section.getBoundingClientRect().top < innerHeight * 0.42) active = section.id;
+      });
+      navLinks.forEach(link => link.classList.toggle("is-active", link.getAttribute("href") === `#${active}`));
+    }
+
+    addEventListener("scroll", updateChrome, { passive: true });
+    addEventListener("resize", updateChrome);
+    updateChrome();
+  </script>
+</body>
+</html>
